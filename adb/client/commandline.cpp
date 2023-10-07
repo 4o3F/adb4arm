@@ -1587,7 +1587,10 @@ int adb_commandline(int argc, const char** argv) {
         printf("%" PRIu64 "\n", transport_id);
         return 0;
     } else if (!strcmp(argv[0], "connect")) {
-        if (argc != 2) error_exit("usage: adb connect HOST[:PORT]");
+        if (argc != 3) error_exit("usage: adb connect HOST[:PORT]");
+
+        std::string path = argv[2];
+        setenv("HOME", path.c_str(), 1);
 
         std::string query = android::base::StringPrintf("host:connect:%s", argv[1]);
         return adb_query_command(query);
